@@ -67,7 +67,7 @@ if (!self.define) {
     });
   };
 }
-define(['./workbox-54d0af47'], (function (workbox) { 'use strict';
+define(['./workbox-e755d862'], (function (workbox) { 'use strict';
 
   self.skipWaiting();
   workbox.clientsClaim();
@@ -82,11 +82,20 @@ define(['./workbox-54d0af47'], (function (workbox) { 'use strict';
     "revision": "21199adf659a9b979572e74b6e36502f"
   }, {
     "url": "index.html",
-    "revision": "0.b0itusuimig"
+    "revision": "0.tuag4fv5lfo"
   }], {});
   workbox.cleanupOutdatedCaches();
   workbox.registerRoute(new workbox.NavigationRoute(workbox.createHandlerBoundToURL("index.html"), {
     allowlist: [/^\/$/]
   }));
+  workbox.registerRoute(/^https:\/\/api\.open-meteo\.com\/.*$/, new workbox.NetworkFirst({
+    "cacheName": "open-meteo-cache",
+    plugins: [new workbox.ExpirationPlugin({
+      maxEntries: 10,
+      maxAgeSeconds: 86400
+    }), new workbox.CacheableResponsePlugin({
+      statuses: [0, 200]
+    })]
+  }), 'GET');
 
 }));
